@@ -11,6 +11,7 @@ public class StorePanelUI : BasePanelUI
     [SerializeField] private UserBalanceUI userBalanceUI;
     [SerializeField] private AddCurrencyUI addCurrencyUI;
     [SerializeField] private SubtractCurrencyUI subtractCurrencyUI;
+    [SerializeField] private CouponsUI couponsUI;
 
     public override void Init()
     {
@@ -19,6 +20,7 @@ public class StorePanelUI : BasePanelUI
         userBalanceUI.Init();
         addCurrencyUI.Init();
         subtractCurrencyUI.Init();
+        couponsUI.Init();
         base.Init();
     }
 }

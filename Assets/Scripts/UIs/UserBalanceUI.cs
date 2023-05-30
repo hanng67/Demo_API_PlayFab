@@ -13,13 +13,16 @@ public class UserBalanceUI : MonoBehaviour
 
     private Dictionary<string, int> virtualCurrency = new Dictionary<string, int>();
 
+    private bool isEnableLog = true;
+
     private void Start()
     {
         textTemplateTransform.gameObject.SetActive(false);
     }
 
-    public void Init()
+    public void Init(bool isEnableLog = true)
     {
+        this.isEnableLog = isEnableLog;
         GetUserInventory();
     }
 
@@ -30,13 +33,19 @@ public class UserBalanceUI : MonoBehaviour
 
     private void GetUserInventory()
     {
-        consoleUI.Write("Getting User Inventory");
+        if (isEnableLog)
+        {
+            consoleUI.Write("Getting User Inventory");
+        }
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnGetUserInventorySuccess, OnRequestFailure);
     }
 
     private void OnGetUserInventorySuccess(GetUserInventoryResult result)
     {
-        consoleUI.WriteLine($"User Balance: " + result.ToJson());
+        if (isEnableLog)
+        {
+            consoleUI.WriteLine($"User Balance: " + result.ToJson());
+        }
         virtualCurrency = result.VirtualCurrency;
         UpdateVisual();
     }
@@ -66,9 +75,13 @@ public class UserBalanceUI : MonoBehaviour
         }
     }
 
-    public void UpdateVirtualCurrency(string key, int value)
+    public void UpdateVirtualCurrency(string key, int value, bool isReplace = false)
     {
         virtualCurrency[key] += value;
+        if (isReplace)
+        {
+            virtualCurrency[key] = value;
+        }
         UpdateVisual();
     }
 }
