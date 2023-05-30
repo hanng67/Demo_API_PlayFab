@@ -44,6 +44,8 @@ public class ConsoleUI : MonoBehaviour
     {
         foreach (Transform child in contentTransform)
         {
+            if (child == TextTemplateTransform) continue;
+
             Destroy(child.gameObject);
         }
     }
