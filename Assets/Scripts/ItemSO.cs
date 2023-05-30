@@ -11,8 +11,10 @@ public class ItemSO : ScriptableObject
     public Sprite itemSprite;
     public string vcKey;
     public int vcValue;
+    public string itemInstanceId;
+    public int? remainingUses;
 
-    public ItemSO() : this(null) { }
+    public ItemSO() : this(catalogItem: null) { }
 
     public ItemSO(CatalogItem catalogItem)
     {
@@ -25,5 +27,18 @@ public class ItemSO : ScriptableObject
             vcKey = vc.Key;
             vcValue = (int)vc.Value;
         }
+    }
+
+    public ItemSO(ItemSO itemSO, ItemInstance itemInstance)
+    {
+        itemId = itemSO.itemId;
+        displayName = itemSO.displayName;
+        description = itemSO.description;
+        itemImageUrl = itemSO.itemImageUrl;
+        itemSprite = itemSO.itemSprite;
+        vcKey = itemSO.vcKey;
+        vcValue = itemSO.vcValue;
+        itemInstanceId = itemInstance.ItemInstanceId;
+        remainingUses = itemInstance.RemainingUses;
     }
 }
