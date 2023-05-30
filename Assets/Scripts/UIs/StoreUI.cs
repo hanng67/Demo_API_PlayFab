@@ -1,14 +1,14 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class StoreUI : BaseUI
+public class StoreUI : MonoBehaviour
 {
     [SerializeField] private Transform containerItemStoreTransform;
     [SerializeField] private Transform itemStoreTemplateTransform;
+    [SerializeField] private ConsoleUI consoleUI;
 
     private Dictionary<string, ItemSO> catalogItems = new Dictionary<string, ItemSO>();
 
@@ -19,15 +19,13 @@ public class StoreUI : BaseUI
         itemStoreTemplateTransform.gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    public void Init()
     {
-        consoleUI.WriteLine("Store");
         GetCatalogItems("Store_default");
     }
 
-    protected override void OnDisable()
+    private void OnDisable()
     {
-        base.OnDisable();
         catalogItems.Clear();
         ClearAllItemStoreUI();
     }

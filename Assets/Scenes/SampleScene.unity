@@ -2313,7 +2313,7 @@ GameObject:
   - component: {fileID: 341158702}
   - component: {fileID: 341158703}
   m_Layer: 5
-  m_Name: AuthenticationAndLoginUI
+  m_Name: AuthenticationAndLoginPanelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6627,7 +6627,7 @@ GameObject:
   - component: {fileID: 734458105}
   - component: {fileID: 734458106}
   m_Layer: 5
-  m_Name: InventoryUI
+  m_Name: InventoryPanelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7757,7 +7757,7 @@ GameObject:
   - component: {fileID: 908624269}
   - component: {fileID: 908624268}
   m_Layer: 5
-  m_Name: ShopButton
+  m_Name: StoreButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10125,7 +10125,7 @@ GameObject:
   - component: {fileID: 1191566475}
   - component: {fileID: 1191566476}
   m_Layer: 5
-  m_Name: MainMenuUI
+  m_Name: MainMenuPanelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10168,11 +10168,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   authenticationAndLoginButton: {fileID: 5549561}
-  shopButton: {fileID: 908624270}
+  storeButton: {fileID: 908624270}
   inventoryButton: {fileID: 607368029}
-  authenticationAndLoginTransform: {fileID: 341158702}
-  shopTransform: {fileID: 2031552006}
-  inventoryTransform: {fileID: 734458105}
+  authenticationAndLoginPanelTransform: {fileID: 341158702}
+  storePanelTransform: {fileID: 2031552006}
+  inventoryPanelTransform: {fileID: 734458105}
 --- !u!1 &1194199466
 GameObject:
   m_ObjectHideFlags: 0
@@ -13398,8 +13398,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1489338509}
+  - component: {fileID: 1489338510}
   m_Layer: 5
-  m_Name: Store
+  m_Name: StoreUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13427,6 +13428,21 @@ RectTransform:
   m_AnchoredPosition: {x: 260, y: 165}
   m_SizeDelta: {x: 1360, y: 485}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1489338510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489338508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c22d53fa749f4140a33fa98d440f570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerItemStoreTransform: {fileID: 438663176}
+  itemStoreTemplateTransform: {fileID: 92123579}
+  consoleUI: {fileID: 1670975769}
 --- !u!1 &1510552914
 GameObject:
   m_ObjectHideFlags: 0
@@ -16084,7 +16100,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shop
+  m_text: Store
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16687,7 +16703,7 @@ GameObject:
   - component: {fileID: 2031552006}
   - component: {fileID: 2031552007}
   m_Layer: 5
-  m_Name: StoreUI
+  m_Name: StorePanelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16735,8 +16751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backButton: {fileID: 1888561584}
   consoleUI: {fileID: 1670975769}
-  containerItemStoreTransform: {fileID: 438663176}
-  itemStoreTemplateTransform: {fileID: 92123579}
+  storeUI: {fileID: 1489338510}
 --- !u!1 &2039149843
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseUI : MonoBehaviour
+public class BasePanelUI : MonoBehaviour
 {
     [SerializeField] private Button backButton;
     [SerializeField] protected ConsoleUI consoleUI;
@@ -15,6 +15,11 @@ public class BaseUI : MonoBehaviour
             gameObject.SetActive(false);
         });
         gameObject.SetActive(false);
+    }
+
+    public virtual void Init()
+    {
+        gameObject.SetActive(true);
     }
 
     protected virtual void OnDisable()
