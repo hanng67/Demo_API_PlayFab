@@ -15,7 +15,7 @@ public class InventoryPanelUI : BasePanelUI
     [SerializeField] private Transform textBalanceTemplateTransform;
 
     private Dictionary<string, ItemSO> catalogItems = new Dictionary<string, ItemSO>();
-    private Dictionary<string, ItemSO> inventoryItems = new Dictionary<string, ItemSO>();
+    private List<ItemSO> inventoryItems = new List<ItemSO>();
     private Dictionary<string, int> virtualCurrency = new Dictionary<string, int>();
 
     private void Start()
@@ -74,7 +74,7 @@ public class InventoryPanelUI : BasePanelUI
 
         foreach (ItemInstance item in result.Inventory)
         {
-            inventoryItems.Add(item.ItemId, new ItemSO(catalogItems[item.ItemId], item));
+            inventoryItems.Add(new ItemSO(catalogItems[item.ItemId], item));
         }
         virtualCurrency = result.VirtualCurrency;
         UpdateVisual();
@@ -94,11 +94,7 @@ public class InventoryPanelUI : BasePanelUI
             Transform itemTransform = Instantiate(itemInventoryTemplateTransform, containerItemInventoryTransform);
             itemTransform.gameObject.SetActive(true);
             itemTransform.GetComponent<ItemInventoryUI>()
-                         .SetItemInventoryUIInfo(item.Value, () =>
-                         {
-                             inventoryItems.Clear();
-                             GetUserInventory();
-                         }, consoleUI);
+                         .SetItemInventoryUIInfo(item, consoleUI);
         }
     }
 
@@ -143,6 +139,6 @@ public class InventoryPanelUI : BasePanelUI
         {
             virtualCurrency[key] = value;
         }
-        UpdateVisual();
+        UpdateVisualTextBalance();
     }
 }

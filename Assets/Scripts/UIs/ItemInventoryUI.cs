@@ -16,7 +16,6 @@ public class ItemInventoryUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textButton;
 
     private ItemSO itemSO;
-    private Action onButtonSuccessAction;
     private ConsoleUI consoleUI;
 
     private void Awake()
@@ -24,10 +23,9 @@ public class ItemInventoryUI : MonoBehaviour
         button.onClick.AddListener(() => ButtonAction());
     }
 
-    public void SetItemInventoryUIInfo(ItemSO itemSO, Action onButtonSuccessAction, ConsoleUI consoleUI)
+    public void SetItemInventoryUIInfo(ItemSO itemSO, ConsoleUI consoleUI)
     {
         this.itemSO = itemSO;
-        this.onButtonSuccessAction = onButtonSuccessAction;
         this.consoleUI = consoleUI;
 
         UpdateVisual();
@@ -95,7 +93,7 @@ public class ItemInventoryUI : MonoBehaviour
         if (result.FunctionResult != null)
         {
             consoleUI.WriteLine($"Revoked Item {itemSO.displayName} Failed");
-            onButtonSuccessAction();
+            Destroy(gameObject);
         }
         else
         {
@@ -116,7 +114,14 @@ public class ItemInventoryUI : MonoBehaviour
     private void OnConsumeItemSuccess(ConsumeItemResult result)
     {
         consoleUI.WriteLine($"Consumed Item {itemSO.displayName} Successfully");
-        onButtonSuccessAction();
+        if (result.RemainingUses == 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            displayNameText.text = itemSO.displayName + $"(x{result.RemainingUses})";
+        }
     }
 
     private void OnRequestFailure(PlayFabError error)
