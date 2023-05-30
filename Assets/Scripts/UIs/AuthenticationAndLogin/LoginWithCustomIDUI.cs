@@ -34,7 +34,10 @@ public class LoginWithCustomIDUI : MonoBehaviour
 
     private void OnLoginSuccess(LoginResult result)
     {
-        consoleUI.WriteLine("Login Success: " + result.ToJson());
+        ProjectManager.Instance.OnLoginSuccessEvent.Invoke(result.PlayFabId);
+        consoleUI.Write("Login Success:");
+        consoleUI.Write($"- PlayFabID: {result.PlayFabId}");
+        consoleUI.WriteLine($"- SessionTicket: {result.SessionTicket}");
     }
 
     private void OnRequestFailure(PlayFabError error)

@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 
 public class InventoryPanelUI : BasePanelUI
 {
+    [SerializeField] private TextMeshProUGUI loggedInText;
     [SerializeField] private Transform containerItemInventoryTransform;
     [SerializeField] private Transform itemInventoryTemplateTransform;
     [SerializeField] private Transform containerTextBalanceTransform;
@@ -26,6 +27,7 @@ public class InventoryPanelUI : BasePanelUI
     public override void Init()
     {
         consoleUI.WriteLine("Inventory");
+        loggedInText.text = $"Logged in User ID: {ProjectManager.Instance.userID}";
         GetCatalogItems();
         base.Init();
     }

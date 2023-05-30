@@ -4,9 +4,11 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class StorePanelUI : BasePanelUI
 {
+    [SerializeField] private TextMeshProUGUI loggedInText;
     [SerializeField] private StoreUI storeUI;
     [SerializeField] private UserBalanceUI userBalanceUI;
     [SerializeField] private AddCurrencyUI addCurrencyUI;
@@ -16,6 +18,7 @@ public class StorePanelUI : BasePanelUI
     public override void Init()
     {
         consoleUI.WriteLine("Store");
+        loggedInText.text = $"Logged in User ID: {ProjectManager.Instance.userID}";
         storeUI.Init();
         userBalanceUI.Init();
         addCurrencyUI.Init();

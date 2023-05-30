@@ -37,7 +37,10 @@ public class RegisterAccountUI : MonoBehaviour
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        consoleUI.WriteLine("Register Success: " + result.ToJson());
+        consoleUI.Write("Register Success:");
+        consoleUI.Write($"- PlayFabID: {result.PlayFabId}");
+        consoleUI.Write($"- Username: {result.Username}");
+        consoleUI.WriteLine($"- SessionTicket: {result.SessionTicket}");
     }
 
     private void OnRequestFailure(PlayFabError error)

@@ -13,19 +13,38 @@ public class MainMenuPanelUI : MonoBehaviour
     [SerializeField] private Transform storePanelTransform;
     [SerializeField] private Transform inventoryPanelTransform;
 
+    [Header("Setting")]
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Color unEnableColor;
+
     private void Awake()
     {
         authenticationAndLoginButton.onClick.AddListener(() =>
         {
             authenticationAndLoginPanelTransform.GetComponent<AuthenticationAndLoginPanelUI>().Init();
         });
-        storeButton.onClick.AddListener(() =>
+        ChangeColorButton(unEnableColor);
+    }
+
+    private void Start()
+    {
+        ProjectManager.Instance.OnLoginSuccessEvent.AddListener((userID) =>
         {
-            storePanelTransform.GetComponent<StorePanelUI>().Init();
+            ChangeColorButton(defaultColor);
+            storeButton.onClick.AddListener(() =>
+            {
+                storePanelTransform.GetComponent<StorePanelUI>().Init();
+            });
+            inventoryButton.onClick.AddListener(() =>
+            {
+                inventoryPanelTransform.GetComponent<InventoryPanelUI>().Init();
+            });
         });
-        inventoryButton.onClick.AddListener(() =>
-        {
-            inventoryPanelTransform.GetComponent<InventoryPanelUI>().Init();
-        });
+    }
+
+    private void ChangeColorButton(Color color)
+    {
+        storeButton.GetComponent<Image>().color = color;
+        inventoryButton.GetComponent<Image>().color = color;
     }
 }
