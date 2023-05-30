@@ -1,3 +1,5 @@
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +17,7 @@ public class BaseUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         consoleUI.ClearAllContent();
     }

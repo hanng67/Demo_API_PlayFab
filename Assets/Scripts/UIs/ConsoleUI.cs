@@ -36,7 +36,7 @@ public class ConsoleUI : MonoBehaviour
 
     public void WriteLine(string text)
     {
-        text = text + "\n------------------------------------------------------";
+        text = text + "\n-------------------------------";
         Write(text);
     }
 
