@@ -8,6 +8,7 @@ public class StoreUI : MonoBehaviour
 {
     [SerializeField] private Transform containerItemStoreTransform;
     [SerializeField] private Transform itemStoreTemplateTransform;
+    [SerializeField] private UserBalanceUI userBalanceUI;
     [SerializeField] private ConsoleUI consoleUI;
 
     private Dictionary<string, ItemSO> catalogItems = new Dictionary<string, ItemSO>();
@@ -32,7 +33,7 @@ public class StoreUI : MonoBehaviour
 
     private void GetCatalogItems(string storeId)
     {
-        consoleUI.WriteLine("Getting Catalog Items");
+        consoleUI.Write("Getting Catalog Items");
         PlayFabClientAPI.GetCatalogItems(new GetCatalogItemsRequest(),
                                         result => { OnGetCatalogItemsSuccess(result, storeId); },
                                         OnRequestFailure);
@@ -50,7 +51,7 @@ public class StoreUI : MonoBehaviour
 
     private void GetStoreItems(string storeId)
     {
-        consoleUI.WriteLine("Getting Store Items ID");
+        consoleUI.Write("Getting Store Items ID");
         PlayFabClientAPI.GetStoreItems(new GetStoreItemsRequest()
         {
             StoreId = storeId
@@ -59,12 +60,15 @@ public class StoreUI : MonoBehaviour
 
     private void OnGetStoreItemsSuccess(GetStoreItemsResult result)
     {
-        consoleUI.WriteLine($"Store Items: " + result.ToJson());
         foreach (StoreItem StoreItem in result.Store)
         {
-            catalogItems[StoreItem.ItemId].vcValue = (int)StoreItem.VirtualCurrencyPrices[catalogItems[StoreItem.ItemId].vcText];
+            string storeItemVCKey = catalogItems[StoreItem.ItemId].vcKey;
+            int storeItemVCValue = (int)StoreItem.VirtualCurrencyPrices[storeItemVCKey];
+            consoleUI.Write($"Store Item ID: {StoreItem.ItemId}, \nPrices: {storeItemVCValue} ({storeItemVCKey})");
+            catalogItems[StoreItem.ItemId].vcValue = storeItemVCValue;
             AddItemStoreUI(catalogItems[StoreItem.ItemId]);
         }
+        consoleUI.WriteLine("");
     }
 
     private void OnRequestFailure(PlayFabError error)
@@ -78,7 +82,10 @@ public class StoreUI : MonoBehaviour
         itemStoreTransform.gameObject.SetActive(true);
 
         ItemStoreUI itemStoreUI = itemStoreTransform.GetComponent<ItemStoreUI>();
-        itemStoreUI.SetItemSO(itemSO, consoleUI);
+        itemStoreUI.SetItemStoreUIInfo(itemSO, () =>
+        {
+            userBalanceUI.UpdateVirtualCurrency(itemSO.vcKey, (-1) * itemSO.vcValue);
+        }, consoleUI);
     }
 
     private void ClearAllItemStoreUI()

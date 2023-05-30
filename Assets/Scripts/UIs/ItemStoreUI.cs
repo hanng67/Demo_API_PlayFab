@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -15,6 +16,7 @@ public class ItemStoreUI : MonoBehaviour
     [SerializeField] private Button purchaseButton;
 
     private ItemSO itemSO;
+    private Action onPurchaseSuccessAction;
     private ConsoleUI consoleUI;
 
     private void Awake()
@@ -22,9 +24,10 @@ public class ItemStoreUI : MonoBehaviour
         purchaseButton.onClick.AddListener(() => PurchaseItem());
     }
 
-    public void SetItemSO(ItemSO itemSO, ConsoleUI consoleUI)
+    public void SetItemStoreUIInfo(ItemSO itemSO, Action onPurchaseSuccessAction, ConsoleUI consoleUI)
     {
         this.itemSO = itemSO;
+        this.onPurchaseSuccessAction = onPurchaseSuccessAction;
         this.consoleUI = consoleUI;
 
         UpdateVisual();
@@ -35,7 +38,7 @@ public class ItemStoreUI : MonoBehaviour
         displayNameText.text = itemSO.displayName;
         iconImage.enabled = false;
         StartCoroutine(LoadImageFromURL(itemSO.itemImageUrl));
-        valueText.text = $"{itemSO.vcValue} ({itemSO.vcText})";
+        valueText.text = $"{itemSO.vcValue} ({itemSO.vcKey})";
     }
 
     public IEnumerator LoadImageFromURL(string url)
@@ -62,13 +65,14 @@ public class ItemStoreUI : MonoBehaviour
         PlayFabClientAPI.PurchaseItem(new PurchaseItemRequest()
         {
             ItemId = itemSO.itemId,
-            VirtualCurrency = itemSO.vcText,
+            VirtualCurrency = itemSO.vcKey,
             Price = itemSO.vcValue
         }, OnPurchaseItemSuccess, OnRequestFailure);
     }
 
     private void OnPurchaseItemSuccess(PurchaseItemResult result)
     {
+        onPurchaseSuccessAction();
         consoleUI.WriteLine($"Purchased Item {result.Items[0].DisplayName} Successfully");
     }
 

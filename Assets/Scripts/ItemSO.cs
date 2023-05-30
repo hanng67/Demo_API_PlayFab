@@ -9,7 +9,7 @@ public class ItemSO : ScriptableObject
     public string description;
     public string itemImageUrl;
     public Sprite itemSprite;
-    public string vcText;
+    public string vcKey;
     public int vcValue;
 
     public ItemSO() : this(null) { }
@@ -22,7 +22,7 @@ public class ItemSO : ScriptableObject
         itemImageUrl = catalogItem.ItemImageUrl;
         foreach (var vc in catalogItem.VirtualCurrencyPrices)
         {
-            vcText = vc.Key;
+            vcKey = vc.Key;
             vcValue = (int)vc.Value;
         }
     }
