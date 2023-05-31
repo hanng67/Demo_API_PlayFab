@@ -38,6 +38,7 @@ public class InventoryPanelUI : BasePanelUI
         inventoryItems.Clear();
         ClearAllItemInventoryUI();
         ClearAllTextBalance();
+        base.OnDisable();
     }
 
     private void GetCatalogItems()

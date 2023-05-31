@@ -10,18 +10,19 @@ public class ProjectManager : MonoBehaviour
 {
     public static ProjectManager Instance { get; private set; }
 
-    public UnityEvent<string> OnLoginSuccessEvent;
+    public UnityEvent OnLoginSuccessEvent;
 
-    public string userID;
+    public string userID = "";
 
     private void Awake()
     {
         Instance = this;
+    }
 
-        OnLoginSuccessEvent.AddListener((userID) =>
-        {
-            this.userID = userID;
-        });
+    public void SetUserID(string userID)
+    {
+        this.userID = userID;
+        OnLoginSuccessEvent.Invoke();
     }
 
 #if UNITY_EDITOR
@@ -40,7 +41,7 @@ public class ProjectManager : MonoBehaviour
         PlayFabClientAPI.LoginWithCustomID(loginRequest,
                                            result =>
                                            {
-                                               OnLoginSuccessEvent.Invoke(result.PlayFabId);
+                                               SetUserID(result.PlayFabId);
                                                Debug.Log("Login Success");
                                            },
                                            error => { Debug.LogError(error.GenerateErrorReport()); });

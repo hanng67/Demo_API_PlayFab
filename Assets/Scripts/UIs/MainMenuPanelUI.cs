@@ -17,6 +17,8 @@ public class MainMenuPanelUI : MonoBehaviour
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color unEnableColor;
 
+    private bool isLoggedIn = false;
+
     private void Awake()
     {
         authenticationAndLoginButton.onClick.AddListener(() =>
@@ -28,17 +30,22 @@ public class MainMenuPanelUI : MonoBehaviour
 
     private void Start()
     {
-        ProjectManager.Instance.OnLoginSuccessEvent.AddListener((userID) =>
+        ProjectManager.Instance.OnLoginSuccessEvent.AddListener(EnableAllAction);
+    }
+
+    private void EnableAllAction()
+    {
+        if (isLoggedIn) return;
+        isLoggedIn = true;
+
+        ChangeColorButton(defaultColor);
+        storeButton.onClick.AddListener(() =>
         {
-            ChangeColorButton(defaultColor);
-            storeButton.onClick.AddListener(() =>
-            {
-                storePanelTransform.GetComponent<StorePanelUI>().Init();
-            });
-            inventoryButton.onClick.AddListener(() =>
-            {
-                inventoryPanelTransform.GetComponent<InventoryPanelUI>().Init();
-            });
+            storePanelTransform.GetComponent<StorePanelUI>().Init();
+        });
+        inventoryButton.onClick.AddListener(() =>
+        {
+            inventoryPanelTransform.GetComponent<InventoryPanelUI>().Init();
         });
     }
 

@@ -37,7 +37,7 @@ public class LoginWithDeviceIDUI : MonoBehaviour
 
     private void OnLoginSuccess(LoginResult result)
     {
-        ProjectManager.Instance.OnLoginSuccessEvent.Invoke(result.PlayFabId);
+        ProjectManager.Instance.SetUserID(result.PlayFabId);
         consoleUI.Write("Login Success:");
         consoleUI.Write($"- PlayFabID: {result.PlayFabId}");
         consoleUI.WriteLine($"- SessionTicket: {result.SessionTicket}");
