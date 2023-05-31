@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using PlayFab.ClientModels;
 
-public class ItemSO : ScriptableObject
+public class ItemSO
 {
     public string itemId;
     public string displayName;
