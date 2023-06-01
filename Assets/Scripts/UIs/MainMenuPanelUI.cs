@@ -8,11 +8,15 @@ public class MainMenuPanelUI : MonoBehaviour
     [SerializeField] private Button authenticationAndLoginButton;
     [SerializeField] private Button storeButton;
     [SerializeField] private Button inventoryButton;
+    [SerializeField] private Button leaderboardButton;
 
+    [Space]
     [SerializeField] private Transform authenticationAndLoginPanelTransform;
     [SerializeField] private Transform storePanelTransform;
     [SerializeField] private Transform inventoryPanelTransform;
+    [SerializeField] private Transform leaderboardPanelTransform;
 
+    [Space]
     [Header("Setting")]
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color unEnableColor;
@@ -39,6 +43,7 @@ public class MainMenuPanelUI : MonoBehaviour
         isLoggedIn = true;
 
         ChangeColorButton(defaultColor);
+
         storeButton.onClick.AddListener(() =>
         {
             storePanelTransform.GetComponent<StorePanelUI>().Init();
@@ -47,11 +52,16 @@ public class MainMenuPanelUI : MonoBehaviour
         {
             inventoryPanelTransform.GetComponent<InventoryPanelUI>().Init();
         });
+        leaderboardButton.onClick.AddListener(() =>
+        {
+            leaderboardPanelTransform.GetComponent<LeaderboardPanelUI>().Init();
+        });
     }
 
     private void ChangeColorButton(Color color)
     {
         storeButton.GetComponent<Image>().color = color;
         inventoryButton.GetComponent<Image>().color = color;
+        leaderboardButton.GetComponent<Image>().color = color;
     }
 }
