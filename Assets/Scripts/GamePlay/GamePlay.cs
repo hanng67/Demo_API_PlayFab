@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,14 @@ public class GamePlay : MonoBehaviour
         Waitting_Input,
         Moving_Blocks,
         Game_Over,
+    }
+
+    public static GamePlay Instance { get; private set; }
+
+    public event EventHandler<OnUpdateHighScoreEventArgs> OnUpdateScore;
+    public class OnUpdateHighScoreEventArgs : EventArgs
+    {
+        public int highScore;
     }
 
 
@@ -58,6 +67,7 @@ public class GamePlay : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         blockTemplateTransform.gameObject.SetActive(false);
         gameOverObject.SetActive(false);
         nodeList = new List<Node>();
@@ -71,7 +81,7 @@ public class GamePlay : MonoBehaviour
             ChangeGameState(GameState.Game_Start);
         });
 
-        highScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
+        // highScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
 
         Hide();
     }
@@ -83,6 +93,7 @@ public class GamePlay : MonoBehaviour
 
     private void OnDisable()
     {
+        highScore = 0;
         ChangeGameState(GameState.Game_Over);
         ClearGrid();
         Hide();
@@ -168,7 +179,7 @@ public class GamePlay : MonoBehaviour
 
     private void SpawnBlock(int amount)
     {
-        var freeNodes = nodeList.Where(n => n.occupiedBlock == null).OrderBy(n => Random.value).ToList();
+        var freeNodes = nodeList.Where(n => n.occupiedBlock == null).OrderBy(n => UnityEngine.Random.value).ToList();
 
         foreach (var node in freeNodes.Take(amount))
         {
@@ -176,7 +187,7 @@ public class GamePlay : MonoBehaviour
             blockTransform.gameObject.SetActive(true);
             Block block = blockTransform.GetComponent<Block>();
             block.Spawn(node);
-            block.SetBlockType(GetBlockTypeByLevel(Random.value < .8f ? BlockLevel.Level_1 : BlockLevel.Level_2));
+            block.SetBlockType(GetBlockTypeByLevel(UnityEngine.Random.value < .8f ? BlockLevel.Level_1 : BlockLevel.Level_2));
             blockList.Add(block);
         }
 
@@ -327,18 +338,23 @@ public class GamePlay : MonoBehaviour
     private void ShowGameOver()
     {
         gameOverObject.SetActive(true);
-
-        if (score > highScore)
-        {
-            highScore = score;
-            PlayerPrefs.SetInt(HIGH_SCORE_KEY, highScore);
-        }
+        UpdateLBScore();
     }
 
     public void UpdateScoreText(int value)
     {
         score += value;
         scoreText.text = "Score: \n" + score;
+    }
+
+    public void UpdateLBScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+            // PlayerPrefs.SetInt(HIGH_SCORE_KEY, highScore);
+            OnUpdateScore?.Invoke(this, new OnUpdateHighScoreEventArgs { highScore = highScore });
+        }
     }
 
     private Node GetNodeByCoordinates(Vector2Int coordinates)
@@ -387,6 +403,17 @@ public class GamePlay : MonoBehaviour
     private void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetHighScore(int highScore)
+    {
+        this.highScore = highScore;
+        // PlayerPrefs.SetInt(HIGH_SCORE_KEY, highScore);
+    }
+
+    public int GetHighScore()
+    {
+        return highScore;
     }
 }
 

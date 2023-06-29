@@ -31,6 +31,7 @@ public class RegisterAccountUI : MonoBehaviour
             Email = emailInputField.text,
             Password = passwordInputField.text,
             Username = usernameInputField.text,
+            DisplayName = usernameInputField.text
         };
         PlayFabClientAPI.RegisterPlayFabUser(registerRequest, OnRegisterSuccess, OnRequestFailure);
     }
@@ -40,6 +41,7 @@ public class RegisterAccountUI : MonoBehaviour
         consoleUI.Write("Register Success:");
         consoleUI.Write($"- PlayFabID: {result.PlayFabId}");
         consoleUI.Write($"- Username: {result.Username}");
+        consoleUI.Write($"- Displayname: {result.Username}");
         consoleUI.WriteLine($"- SessionTicket: {result.SessionTicket}");
     }
 
